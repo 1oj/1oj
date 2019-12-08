@@ -1,0 +1,10 @@
+CACHE MANIFEST
+#v1 - 1.0.0.12
+CACHE:
+index.html
+QA/index.html
+opensans-300.eot
+opensans-300.ttf
+opensans-300.woff
+NETWORK:
+*

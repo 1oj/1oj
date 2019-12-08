@@ -22,8 +22,8 @@ function createAccount(){
 
 
 	var keyObject = keythereum.dump(newAccountpwd, dk.privateKey, dk.salt, dk.iv, options);
-	
-	document.getElementById('newcreate').innerHTML = JSON.stringify(keyObject);
+	//newcreate
+	document.getElementById('jsonStr').value = JSON.stringify(keyObject);
 }
 
 function clean()
@@ -128,9 +128,8 @@ var options = {
 <button type="button" onclick = "createAccount()" >生成账号</button>
 <p id = 'newcreate'>生成账号</p>
 <textarea id = "jsonStr" rows="10" cols="120">
-{"address":"a983b670e3bce5aaf2ebc6643c8bca245c167cec","crypto":{"cipher":"aes-128-ctr","ciphertext":"d5576192b093f9e9dc02c066bfeaf024a7ecef2de8369a3c6c6a2c9da8d6d5b8","cipherparams":{"iv":"67129f36c72a3c19b8a931009bda1df8"},"mac":"b57200f427ea213cbf067ca77ffe9d1b14b4a0f5c20f4046ad7ceb33fc9e388a","kdf":"scrypt","kdfparams":{"dklen":32,"n":262144,"r":8,"p":1,"salt":"af6e63ec4abf6cc80d836ff6e611ca0c6e5dedda9d96bbc5ab7bc458b993fbe6"}},"id":"530089f1-618c-41c3-a480-a2affc8a74b3","version":3}
 </textarea>
-
+生成的账号在这里。
 </br>
 输入密码: <input type="text" id="pwd" />
 

@@ -1,0 +1,51 @@
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Cache-Control" content="no-cache"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=2.0"/>
+<meta name="MobileOptimized" content="240"/>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+<meta http-equiv="Content-Type" content="text/html; charset=UFT-8"> 
+<meta name="viewport" content="width=device-width, initial-scale=1" /> 
+<title>ETH私钥生成恢复</title>
+</head>
+<style>
+textarea{width:100%;height:50%;}
+</style>
+0xE9A9ACE8839CE698A5;//16进制私钥-马胜春<br>
+0xE586B7E6BA90;//16进制明文-冷源<br>
+<script>
+
+
+
+function hexto(str){
+var str1=str.split(",")[0];
+var str2=str.split(",")[1];
+
+var  s=str1;
+var  a="0x"+((s%255)*s).toString(16);//16进制地址0x2da323c569b4a6000000
+var  b=str2;
+var  c=0xABCDEF1234567890;//服务公钥
+var  d="0x"+(a*c).toString(16);
+var  e="0x"+(a*b).toString(16);;
+var  f=(d+","+e);
+return f;
+}
+
+function tohex(str){
+var c=0xABCDEF1234567890;//服务公钥
+var g=str.split(",");
+var q="0x"+(Math.round(g[0]/c)).toString(16);
+var w="0x"+(Math.round(g[1]/q)).toString(16);
+return "公钥地址:"+q+"\r"+"传输文字:"+w;
+}
+
+
+
+</script>
+
+
+<textarea id="im" >0xE9A9ACE8839CE698A5,0xE586B7E6BA90</textarea><br>
+<button onclick="im.value=hexto(im.value)">加密</button><button onclick="im.value=tohex(im.value)">解密</button>
+</html>

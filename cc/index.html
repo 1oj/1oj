@@ -20,24 +20,24 @@ textarea{width:100%;height:50%;}
 
 
 function hexto(str){
-var str1=str.split(",")[0];
-var str2=str.split(",")[1];
+var str1="0x"+str.split("0x")[1];
+var str2="0x"+str.split("0x")[2];
 
 var  s=str1;
 var  a="0x"+((s%255)*s).toString(16);//16进制地址0x2da323c569b4a6000000
 var  b=str2;
 var  c=0xABCDEF1234567890;//服务公钥
 var  d="0x"+(a*c).toString(16);
-var  e="0x"+(a*b).toString(16);;
-var  f=(d+","+e);
+var  e="0x"+(a*b).toString(16);
+var  f=(d+""+e);
 return f;
 }
 
 function tohex(str){
 var c=0xABCDEF1234567890;//服务公钥
-var g=str.split(",");
-var q="0x"+(Math.round(g[0]/c)).toString(16);
-var w="0x"+(Math.round(g[1]/q)).toString(16);
+var g=str.split("0x");
+var q="0x"+(Math.round(("0x"+g[1])/c)).toString(16);
+var w="0x"+(Math.round(("0x"+g[2])/q)).toString(16);
 return "公钥地址:"+q+"\r"+"传输文字:"+w;
 }
 
@@ -46,6 +46,6 @@ return "公钥地址:"+q+"\r"+"传输文字:"+w;
 </script>
 
 
-<textarea id="im" >0xE9A9ACE8839CE698A5,0xE586B7E6BA90</textarea><br>
+<textarea id="im" >0xE9A9ACE8839CE698A50xE586B7E6BA90</textarea><br>
 <button onclick="im.value=hexto(im.value)">加密</button><button onclick="im.value=tohex(im.value)">解密</button>
 </html>

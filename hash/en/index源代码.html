@@ -1,0 +1,72 @@
+﻿<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Cache-Control" content="no-cache"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=2.0"/>
+<meta name="MobileOptimized" content="240"/>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+<meta http-equiv="Content-Type" content="text/html; charset=UFT-8"> 
+<meta name="viewport" content="width=device-width, initial-scale=1" /> 
+<title>ETH私钥生成恢复</title>
+</head>
+<style>
+div{font-size:50px;}
+*{font-family:'Open Sans Light';}
+xmp{
+font-size:15px;
+background:#A3D1D1;
+padding: 10px;
+white-space: pre-wrap;
+word-wrap: break-word;
+}
+</style>
+<script src="sha256.js"></script>
+<script>
+function md5(str){
+return hex_md5(encodeURIComponent(str));
+}
+
+function ahash(){
+var tel1=md5(tel.value);
+var email1=md5(email.value);
+var dizhi1=md5(dizhi.value);
+var qqhao1=md5(qqhao.value);
+var shenfenz1=md5(shenfenz.value);
+
+var pj=md5(md5(md5(md5(md5(md5(tel1+email1+dizhi1+qqhao1+shenfenz1))))));
+
+var xpj=md5(email1+pj)+pj;
+
+var zmm="0x"+xpj.toUpperCase();
+if(zmm=="0xAF1C2B451524076FA441F44EB2477054ED1A2F10B4C7A124E2604B5F48DF1B99"){
+private.innerText="请至少填写一项内容！";
+}else
+{
+private.innerText=zmm;
+}
+
+
+}
+</script>
+
+
+<body>
+<div>ETH私钥生成或恢复</div>
+<p>注意:以下内容至少要填写一项，最好都填写，以防止非法窃取。</p>
+手机号:<input id="tel" placeholder="手机号码">
+<br>
+邮　箱:<input id="email" placeholder="邮箱地址">
+<br>
+地　址:<input id="dizhi" placeholder="家庭住址">
+<br>
+ＱＱ号:<input id="qqhao" placeholder="QQ号码">
+<br>
+身份证:<input id="shenfenz" placeholder="身份证号码">
+<br>
+<br>
+<button onclick="ahash()">私钥生成恢复</button>
+<xmp id="private"></xmp>
+Email:A@1OJ.CC
+</body>
+</html>

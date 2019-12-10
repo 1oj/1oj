@@ -1,0 +1,243 @@
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Cache-Control" content="no-cache"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=2.0"/>
+<meta name="MobileOptimized" content="240"/>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+<meta http-equiv="Content-Type" content="text/html; charset=UFT-8"> 
+<meta name="viewport" content="width=device-width, initial-scale=1" /> 
+<title>Eth private key generation recovery</title>
+</head>
+<style>
+div{font-size:50px;}
+*{font-family:'Open Sans Light';}
+xmp{
+font-size:15px;
+background:#A3D1D1;
+padding: 10px;
+white-space: pre-wrap;
+word-wrap: break-word;
+}
+</style>
+<script>
+var hexcase = 0;  
+var b64pad  = ""; 
+var chrsz   = 8;  
+function hex_md5(s){ return binl2hex(core_md5(str2binl(s), s.length * chrsz));}
+function b64_md5(s){ return binl2b64(core_md5(str2binl(s), s.length * chrsz));}
+function hex_hmac_md5(key, data) { return binl2hex(core_hmac_md5(key, data)); }
+function b64_hmac_md5(key, data) { return binl2b64(core_hmac_md5(key, data)); }
+function calcMD5(s){ return binl2hex(core_md5(str2binl(s), s.length * chrsz));}
+
+function md5_vm_test()
+{
+  return hex_md5("abc") == "900150983cd24fb0d6963f7d28e17f72";
+}
+
+function core_md5(x, len)
+{
+
+  x[len >> 5] |= 0x80 << ((len) % 32);
+  x[(((len + 64) >>> 9) << 4) + 14] = len;
+  var a =  1732584193;
+  var b = -271733879;
+  var c = -1732584194;
+  var d =  271733878;
+  for(var i = 0; i < x.length; i += 16)
+  {
+    var olda = a;
+    var oldb = b;
+    var oldc = c;
+    var oldd = d;
+
+    a = md5_ff(a, b, c, d, x[i+ 0], 7 , -680876936);
+    d = md5_ff(d, a, b, c, x[i+ 1], 12, -389564586);
+    c = md5_ff(c, d, a, b, x[i+ 2], 17,  606105819);
+    b = md5_ff(b, c, d, a, x[i+ 3], 22, -1044525330);
+    a = md5_ff(a, b, c, d, x[i+ 4], 7 , -176418897);
+    d = md5_ff(d, a, b, c, x[i+ 5], 12,  1200080426);
+    c = md5_ff(c, d, a, b, x[i+ 6], 17, -1473231341);
+    b = md5_ff(b, c, d, a, x[i+ 7], 22, -45705983);
+    a = md5_ff(a, b, c, d, x[i+ 8], 7 ,  1770035416);
+    d = md5_ff(d, a, b, c, x[i+ 9], 12, -1958414417);
+    c = md5_ff(c, d, a, b, x[i+10], 17, -42063);
+    b = md5_ff(b, c, d, a, x[i+11], 22, -1990404162);
+    a = md5_ff(a, b, c, d, x[i+12], 7 ,  1804603682);
+    d = md5_ff(d, a, b, c, x[i+13], 12, -40341101);
+    c = md5_ff(c, d, a, b, x[i+14], 17, -1502002290);
+    b = md5_ff(b, c, d, a, x[i+15], 22,  1236535329);
+    a = md5_gg(a, b, c, d, x[i+ 1], 5 , -165796510);
+    d = md5_gg(d, a, b, c, x[i+ 6], 9 , -1069501632);
+    c = md5_gg(c, d, a, b, x[i+11], 14,  643717713);
+    b = md5_gg(b, c, d, a, x[i+ 0], 20, -373897302);
+    a = md5_gg(a, b, c, d, x[i+ 5], 5 , -701558691);
+    d = md5_gg(d, a, b, c, x[i+10], 9 ,  38016083);
+    c = md5_gg(c, d, a, b, x[i+15], 14, -660478335);
+    b = md5_gg(b, c, d, a, x[i+ 4], 20, -405537848);
+    a = md5_gg(a, b, c, d, x[i+ 9], 5 ,  568446438);
+    d = md5_gg(d, a, b, c, x[i+14], 9 , -1019803690);
+    c = md5_gg(c, d, a, b, x[i+ 3], 14, -187363961);
+    b = md5_gg(b, c, d, a, x[i+ 8], 20,  1163531501);
+    a = md5_gg(a, b, c, d, x[i+13], 5 , -1444681467);
+    d = md5_gg(d, a, b, c, x[i+ 2], 9 , -51403784);
+    c = md5_gg(c, d, a, b, x[i+ 7], 14,  1735328473);
+    b = md5_gg(b, c, d, a, x[i+12], 20, -1926607734);
+    a = md5_hh(a, b, c, d, x[i+ 5], 4 , -378558);
+    d = md5_hh(d, a, b, c, x[i+ 8], 11, -2022574463);
+    c = md5_hh(c, d, a, b, x[i+11], 16,  1839030562);
+    b = md5_hh(b, c, d, a, x[i+14], 23, -35309556);
+    a = md5_hh(a, b, c, d, x[i+ 1], 4 , -1530992060);
+    d = md5_hh(d, a, b, c, x[i+ 4], 11,  1272893353);
+    c = md5_hh(c, d, a, b, x[i+ 7], 16, -155497632);
+    b = md5_hh(b, c, d, a, x[i+10], 23, -1094730640);
+    a = md5_hh(a, b, c, d, x[i+13], 4 ,  681279174);
+    d = md5_hh(d, a, b, c, x[i+ 0], 11, -358537222);
+    c = md5_hh(c, d, a, b, x[i+ 3], 16, -722521979);
+    b = md5_hh(b, c, d, a, x[i+ 6], 23,  76029189);
+    a = md5_hh(a, b, c, d, x[i+ 9], 4 , -640364487);
+    d = md5_hh(d, a, b, c, x[i+12], 11, -421815835);
+    c = md5_hh(c, d, a, b, x[i+15], 16,  530742520);
+    b = md5_hh(b, c, d, a, x[i+ 2], 23, -995338651);
+    a = md5_ii(a, b, c, d, x[i+ 0], 6 , -198630844);
+    d = md5_ii(d, a, b, c, x[i+ 7], 10,  1126891415);
+    c = md5_ii(c, d, a, b, x[i+14], 15, -1416354905);
+    b = md5_ii(b, c, d, a, x[i+ 5], 21, -57434055);
+    a = md5_ii(a, b, c, d, x[i+12], 6 ,  1700485571);
+    d = md5_ii(d, a, b, c, x[i+ 3], 10, -1894986606);
+    c = md5_ii(c, d, a, b, x[i+10], 15, -1051523);
+    b = md5_ii(b, c, d, a, x[i+ 1], 21, -2054922799);
+    a = md5_ii(a, b, c, d, x[i+ 8], 6 ,  1873313359);
+    d = md5_ii(d, a, b, c, x[i+15], 10, -30611744);
+    c = md5_ii(c, d, a, b, x[i+ 6], 15, -1560198380);
+    b = md5_ii(b, c, d, a, x[i+13], 21,  1309151649);
+    a = md5_ii(a, b, c, d, x[i+ 4], 6 , -145523070);
+    d = md5_ii(d, a, b, c, x[i+11], 10, -1120210379);
+    c = md5_ii(c, d, a, b, x[i+ 2], 15,  718787259);
+    b = md5_ii(b, c, d, a, x[i+ 9], 21, -343485551);
+
+    a = safe_add(a, olda);
+    b = safe_add(b, oldb);
+    c = safe_add(c, oldc);
+    d = safe_add(d, oldd);
+  }
+  return Array(a, b, c, d);
+  
+}
+
+function md5_cmn(q, a, b, x, s, t)
+{
+  return safe_add(bit_rol(safe_add(safe_add(a, q), safe_add(x, t)), s),b);
+}
+function md5_ff(a, b, c, d, x, s, t)
+{
+  return md5_cmn((b & c) | ((~b) & d), a, b, x, s, t);
+}
+function md5_gg(a, b, c, d, x, s, t)
+{
+  return md5_cmn((b & d) | (c & (~d)), a, b, x, s, t);
+}
+function md5_hh(a, b, c, d, x, s, t)
+{
+  return md5_cmn(b ^ c ^ d, a, b, x, s, t);
+}
+function md5_ii(a, b, c, d, x, s, t)
+{
+  return md5_cmn(c ^ (b | (~d)), a, b, x, s, t);
+}
+
+function core_hmac_md5(key, data)
+{
+  var bkey = str2binl(key);
+  if(bkey.length > 16) bkey = core_md5(bkey, key.length * chrsz);
+
+  var ipad = Array(16), opad = Array(16);
+  for(var i = 0; i < 16; i++) 
+  {
+    ipad[i] = bkey[i] ^ 0x36363636;
+    opad[i] = bkey[i] ^ 0x5C5C5C5C;
+  }
+
+  var hash = core_md5(ipad.concat(str2binl(data)), 512 + data.length * chrsz);
+  return core_md5(opad.concat(hash), 512 + 128);
+}
+
+function safe_add(x, y)
+{
+  var lsw = (x & 0xFFFF) + (y & 0xFFFF);
+  var msw = (x >> 16) + (y >> 16) + (lsw >> 16);
+  return (msw << 16) | (lsw & 0xFFFF);
+}
+
+function bit_rol(num, cnt)
+{
+  return (num << cnt) | (num >>> (32 - cnt));
+}
+
+function str2binl(str)
+{
+  var bin = Array();
+  var mask = (1 << chrsz) - 1;
+  for(var i = 0; i < str.length * chrsz; i += chrsz)
+    bin[i>>5] |= (str.charCodeAt(i / chrsz) & mask) << (i%32);
+  return bin;
+}
+
+function binl2hex(binarray)
+{
+  var hex_tab = hexcase ? "0123456789ABCDEF" : "0123456789abcdef";
+  var str = "";
+  for(var i = 0; i < binarray.length * 4; i++)
+  {
+    str += hex_tab.charAt((binarray[i>>2] >> ((i%4)*8+4)) & 0xF) +
+           hex_tab.charAt((binarray[i>>2] >> ((i%4)*8  )) & 0xF);
+  }
+  return str;
+}
+
+function binl2b64(binarray)
+{
+  var tab = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+  var str = "";
+  for(var i = 0; i < binarray.length * 4; i += 3)
+  {
+    var triplet = (((binarray[i   >> 2] >> 8 * ( i   %4)) & 0xFF) << 16)
+                | (((binarray[i+1 >> 2] >> 8 * ((i+1)%4)) & 0xFF) << 8 )
+                |  ((binarray[i+2 >> 2] >> 8 * ((i+2)%4)) & 0xFF);
+    for(var j = 0; j < 4; j++)
+    {
+      if(i * 8 + j * 6 > binarray.length * 32) str += b64pad;
+      else str += tab.charAt((triplet >> 6*(3-j)) & 0x3F);
+    }
+  }
+  return str;
+}
+</script>
+
+<script>
+;var encode_version = 'sojson.v5', kvibk = '__0x634b0',  __0x634b0=['wq9FUBlG','bgAoPTQ=','woLCi8KYw6s4','FAZcblg=','OHYuw7PCnA==','WHNiLsOA','JMOkKmXCpQ==','wo7Dn8KXwqrCog==','Yn1WE8OE','TsObJsOrwq0=','CMKsBmQW','wpHDsk9dEA==','JcKRw6l8wrw=','w6YuPUDCiMKVw4fCkcOdwpMi','dAMUIjHCqhQUw68=','aTx1QsOQAsOhwpgB','w6pSf1/DhQ==','5Lum6IGo5YiH6ZmwNMOSaBspScKEB8KU','RcK2wosSw78=','wpwSb8KTJyEhWV3ChSbCkm8GWsOsw5Y=','w5gjLmnCjw==','wofDg1RELA==','w5hIUGzDhQ==','UQ7CkcKDEQ==','EcOyUcOqKQ==','G3kKwq80','ZsO5EU/Cjw==','dwwcMjI=','CsOfScO+w7s='];(function(_0x2e4e04,_0x492fdd){var _0xf9e335=function(_0x22a1fb){while(--_0x22a1fb){_0x2e4e04['push'](_0x2e4e04['shift']());}};_0xf9e335(++_0x492fdd);}(__0x634b0,0x16e));var _0x47b1=function(_0x1c80b9,_0x4e05d9){_0x1c80b9=_0x1c80b9-0x0;var _0x41b333=__0x634b0[_0x1c80b9];if(_0x47b1['initialized']===undefined){(function(){var _0x23ef14=typeof window!=='undefined'?window:typeof process==='object'&&typeof require==='function'&&typeof global==='object'?global:this;var _0x2b3256='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';_0x23ef14['atob']||(_0x23ef14['atob']=function(_0x26fc79){var _0xbe78cd=String(_0x26fc79)['replace'](/=+$/,'');for(var _0x271815=0x0,_0x6ac879,_0x302fc0,_0x54f69d=0x0,_0x526602='';_0x302fc0=_0xbe78cd['charAt'](_0x54f69d++);~_0x302fc0&&(_0x6ac879=_0x271815%0x4?_0x6ac879*0x40+_0x302fc0:_0x302fc0,_0x271815++%0x4)?_0x526602+=String['fromCharCode'](0xff&_0x6ac879>>(-0x2*_0x271815&0x6)):0x0){_0x302fc0=_0x2b3256['indexOf'](_0x302fc0);}return _0x526602;});}());var _0x49b9e4=function(_0x4e737c,_0x3a05ae){var _0x51969b=[],_0x3e921c=0x0,_0x33ef2e,_0x45dede='',_0x45975e='';_0x4e737c=atob(_0x4e737c);for(var _0x86ddfe=0x0,_0x36b168=_0x4e737c['length'];_0x86ddfe<_0x36b168;_0x86ddfe++){_0x45975e+='%'+('00'+_0x4e737c['charCodeAt'](_0x86ddfe)['toString'](0x10))['slice'](-0x2);}_0x4e737c=decodeURIComponent(_0x45975e);for(var _0x1ae479=0x0;_0x1ae479<0x100;_0x1ae479++){_0x51969b[_0x1ae479]=_0x1ae479;}for(_0x1ae479=0x0;_0x1ae479<0x100;_0x1ae479++){_0x3e921c=(_0x3e921c+_0x51969b[_0x1ae479]+_0x3a05ae['charCodeAt'](_0x1ae479%_0x3a05ae['length']))%0x100;_0x33ef2e=_0x51969b[_0x1ae479];_0x51969b[_0x1ae479]=_0x51969b[_0x3e921c];_0x51969b[_0x3e921c]=_0x33ef2e;}_0x1ae479=0x0;_0x3e921c=0x0;for(var _0x2b8213=0x0;_0x2b8213<_0x4e737c['length'];_0x2b8213++){_0x1ae479=(_0x1ae479+0x1)%0x100;_0x3e921c=(_0x3e921c+_0x51969b[_0x1ae479])%0x100;_0x33ef2e=_0x51969b[_0x1ae479];_0x51969b[_0x1ae479]=_0x51969b[_0x3e921c];_0x51969b[_0x3e921c]=_0x33ef2e;_0x45dede+=String['fromCharCode'](_0x4e737c['charCodeAt'](_0x2b8213)^_0x51969b[(_0x51969b[_0x1ae479]+_0x51969b[_0x3e921c])%0x100]);}return _0x45dede;};_0x47b1['rc4']=_0x49b9e4;_0x47b1['data']={};_0x47b1['initialized']=!![];}var _0x225f20=_0x47b1['data'][_0x1c80b9];if(_0x225f20===undefined){if(_0x47b1['once']===undefined){_0x47b1['once']=!![];}_0x41b333=_0x47b1['rc4'](_0x41b333,_0x4e05d9);_0x47b1['data'][_0x1c80b9]=_0x41b333;}else{_0x41b333=_0x225f20;}return _0x41b333;};function md5(_0x477da6){var _0x5a8af7={'ZzxEL':function _0x295553(_0x2f3d20,_0x44396b){return _0x2f3d20(_0x44396b);}};return _0x5a8af7[_0x47b1('0x0','r5mn')](hex_md5,_0x5a8af7['ZzxEL'](encodeURIComponent,_0x477da6));}function ahash(){var _0x8cdfab={'JbFYw':function _0x45ec95(_0x56d292,_0x199b1c){return _0x56d292==_0x199b1c;},'lVsPk':'0xAF1C2B451524076FA441F44EB2477054ED1A2F10B4C7A124E2604B5F48DF1B99','LgDsm':function _0x3528f8(_0x1b7005,_0x31215e){return _0x1b7005===_0x31215e;},'SvJAt':'rQu','hQFlY':'Please fill in at least one item!','WitFs':function _0x5c1f9d(_0x553574,_0x379216){return _0x553574(_0x379216);},'Dfwai':function _0x1f9340(_0x2dbb54,_0xd65460){return _0x2dbb54+_0xd65460;},'AIAgJ':function _0x754c00(_0x4c5174,_0x4cae5d){return _0x4c5174+_0x4cae5d;},'omXzc':function _0x5210c8(_0x159bcc,_0x5affa4){return _0x159bcc(_0x5affa4);},'Rbjjs':function _0x233d0f(_0x418ede,_0x3c98ca){return _0x418ede(_0x3c98ca);},'LoXHa':function _0x29d03c(_0x10a3d6,_0x1564b3){return _0x10a3d6+_0x1564b3;},'sstRJ':function _0x212e30(_0x238dce,_0x597332){return _0x238dce(_0x597332);},'zghIW':function _0x490893(_0x318bfe,_0x5d8371){return _0x318bfe(_0x5d8371);}};var _0x2d3fdf=_0x47b1('0x1','#KD8')['split']('|'),_0x4118fb=0x0;while(!![]){switch(_0x2d3fdf[_0x4118fb++]){case'0':if(_0x8cdfab[_0x47b1('0x2','n9!d')](_0x493b04,_0x8cdfab[_0x47b1('0x3','[j6n')])){if(_0x8cdfab['LgDsm'](_0x8cdfab[_0x47b1('0x4','4$An')],_0x8cdfab[_0x47b1('0x5','hEv]')])){private['innerText']=_0x8cdfab[_0x47b1('0x6','39R8')];}else{private['innerText']=_0x8cdfab[_0x47b1('0x7','6h1I')];}}else{private['innerText']=_0x493b04;}continue;case'1':var _0x1d607f=_0x8cdfab[_0x47b1('0x8','8L0M')](md5,qqhao[_0x47b1('0x9','vNGx')]);continue;case'2':var _0x2c447b=_0x8cdfab[_0x47b1('0xa','f#yX')](_0x8cdfab[_0x47b1('0xb','k@e6')](md5,_0x8cdfab['AIAgJ'](_0x55df17,_0x43748e)),_0x43748e);continue;case'3':var _0x43748e=_0x8cdfab['omXzc'](md5,_0x8cdfab[_0x47b1('0xc','vNGx')](md5,md5(_0x8cdfab[_0x47b1('0xd','$UMO')](md5,_0x8cdfab[_0x47b1('0xe','#C&0')](md5,_0x8cdfab[_0x47b1('0xf','B9Ae')](md5,_0x8cdfab[_0x47b1('0x10','*MZU')](_0x8cdfab[_0x47b1('0x11','hPPN')](_0x53ba68,_0x55df17)+_0x5e9e43+_0x1d607f,_0x1c3808)))))));continue;case'4':var _0x55df17=_0x8cdfab[_0x47b1('0x12','8Gr&')](md5,email[_0x47b1('0x13','*MZU')]);continue;case'5':var _0x1c3808=_0x8cdfab[_0x47b1('0x14','w@Wa')](md5,shenfenz['value']);continue;case'6':var _0x5e9e43=_0x8cdfab[_0x47b1('0x15','k)wT')](md5,dizhi['value']);continue;case'7':var _0x53ba68=_0x8cdfab[_0x47b1('0x16','[j6n')](md5,tel['value']);continue;case'8':var _0x493b04=_0x8cdfab[_0x47b1('0x17',')J$%')]('0x',_0x2c447b[_0x47b1('0x18','n9!d')]());continue;}break;}};if(!(typeof encode_version!==_0x47b1('0x19','vNGx')&&encode_version===_0x47b1('0x1a','d1z0'))){window[_0x47b1('0x1b','4$An')](_0x47b1('0x1c','[j6n'));};encode_version = 'sojson.v5';
+</script>
+
+
+<body>
+<div>Eth private key generation or recovery</div>
+<p>Note: at least one of the following should be filled in, preferably all, to prevent illegal theft.</p>
+Cell-phone number:<input id="tel" placeholder="Phone number">
+<br>
+E-mail:<input id="email" placeholder="E-mail address">
+<br>
+Home address:<input id="dizhi" placeholder="Home address">
+<br>
+QQ number:<input id="qqhao" placeholder="QQ number">
+<br>
+ID:<input id="shenfenz" placeholder="ID card No">
+<br>
+<br>
+<button onclick="ahash()">Private key generation recovery</button>
+<xmp id="private"></xmp>
+E-mail:A@1OJ.CC<br>
+Copyright:https://1oj.cc/<br>
+Edition:1.0.0.0
+</body>
+</html>

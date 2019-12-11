@@ -1,0 +1,121 @@
+﻿<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;"/>
+<meta http-equiv="Cache-Control" content="no-cache"/>
+<meta name="MobileOptimized" content="240"/>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+<meta http-equiv="Content-Type" content="text/html; charset=UFT-8"> 
+<meta name="viewport" content="width=device-width, initial-scale=1" /> 
+<title>Str to Hex</title>
+</head>
+<body>
+<style>
+textarea{
+width:606px;
+height:150px;
+background:#FFFFFF;
+color: #555555;
+font-size:16px;
+border:1px solid #CCCCCC;
+resize:none;
+}
+h1{color: #555555;}
+*{
+border-radius:5px;
+moz-user-select: -moz-none;
+-moz-user-select: none;
+-o-user-select:none;
+-khtml-user-select:none;
+-ms-user-select:none;
+user-select:none;
+ -webkit-appearance:none;
+}
+    
+
+    
+button{
+background-color:orange;
+border:1px solid #FFFFFF;
+color:#000000;
+outline: none;
+border-radius:5px;
+    background:#3383da;
+    background:#5BC0DE;
+    border: none;
+    color: white;
+    font-family:Arial;
+    padding: 10px 24px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+
+</style>
+<h1>Str to Hex</h1>
+<textarea id="itext" oninput="msg.innerText=''" onclick="msg.innerText=''">
+{
+"POWER":"https://1oj.cc",
+"NAME":"1oj",
+"TOKEN":"10000000.00000000",
+"STOKEN":"1000000.00000000",
+"ADDRESS":"0x202481f2dEE77714640bd8f8918B49B0a189Fbdc",
+"RTOKEN":"9000000.00000000"
+}
+</textarea><p id="msg"></p>
+<button onclick="itext.value=strtohex(itext.value)">Str to Hex</button>
+<button onclick="itext.value=hextostr(itext.value)">Hex to Str</button>
+<button onclick="msg.innerText='error fail in send'" style="background:green;">Send</button>
+
+
+<script type="text/javascript">
+
+function strtohex(str){
+var tmp='';
+for(i=0;i<str.length;i++)
+{
+var pattern1 = new RegExp("[0-9]+");
+var pattern2 = new RegExp("[A-Za-z]+");
+var regEn = /[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/im,
+    regCn = /[·！#￥（——）：；“”‘、，|《。》？、【】[\][\r\n][\r][\n]]/im;
+if(pattern1.test(str[i]) || pattern2.test(str[i]) || regEn.test(str[i]) || regCn.test(str[i]))
+{
+//特殊字符转16进制
+code = str[i].charCodeAt(); 
+str2 = code.toString(16);
+//alert(str2);
+tmp += str2;
+}
+else
+{
+//该字符是中文
+str2 = encodeURIComponent(str[i]);
+tmp += str2;
+}
+}
+tmp2=tmp.replace(/%/g,"");
+return tmp2.toUpperCase();
+}
+
+
+function hextostr(data)
+{
+if (data.length % 2) return '';
+var tmp='';
+for(i=0;i<data.length;i+=2)
+{
+tmp += '%' + data.charAt(i) + data.charAt(i+1);
+}
+return decodeURIComponent(decodeURI(tmp));
+}
+
+</script>
+
+
+</body>
+</html>

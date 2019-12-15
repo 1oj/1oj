@@ -26,6 +26,15 @@ font-size:16px;
 border:1px solid #CCCCCC;
 resize:none;
 }
+
+input{
+background:#FFFFFF;
+color: #555555;
+font-size:16px;
+border:1px solid #CCCCCC;
+resize:none;
+}
+	
 h1{color: #555555;}
 *{
 border-radius:5px;
@@ -85,6 +94,7 @@ function createAccount(){
 	var keyObject = keythereum.dump(newAccountpwd, dk.privateKey, dk.salt, dk.iv, options);
 	//newcreate
 	document.getElementById('jsonStr').value = JSON.stringify(keyObject);
+	document.getElementById('newcreate').innerText="ETH地址:"+JSON.stringify(keyObject)['address'];
 }
 
 function clean()
@@ -187,11 +197,13 @@ var options = {
 
 输入密码: <input type="text" id="createpwd" />
 <button type="button" onclick = "createAccount()" >生成账号</button>
-<p id = 'newcreate'>生成账号</p>
+<p id = 'newcreate'></p>
 <textarea id = "jsonStr" rows="10" cols="120">
 </textarea>
 生成的账号在这里。
 </br>
+	
+<div style="display:none;">
 输入密码: <input type="text" id="pwd" />
 
 
@@ -215,3 +227,4 @@ var options = {
 
 </br>
 <h2 id = "signResulttest">签名结果比对</h2>
+</div>

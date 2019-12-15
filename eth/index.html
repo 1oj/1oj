@@ -69,6 +69,7 @@ border-radius:5px;
 
 
 function createAccount(){
+	document.getElementById('newcreate').innerText="请稍等,正在生成...";
 	var newAccountpwd = document.getElementById('createpwd').value;
 	console.log( "密码为："+newAccountpwd);
 	var params = { keyBytes: 32, ivBytes: 16 };
@@ -195,10 +196,11 @@ var options = {
 <p id = 'newcreate'></p>
 <textarea readonly id = "jsonStr" rows="10" cols="120">
 </textarea>
-生成的账号在这里。
+
+<div style="display:none;">
+	生成的账号在这里。
 </br>
 	
-<div style="display:none;">
 输入密码: <input type="text" id="pwd" />
 
 

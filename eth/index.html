@@ -94,8 +94,8 @@ function createAccount(){
 	var keyObject = keythereum.dump(newAccountpwd, dk.privateKey, dk.salt, dk.iv, options);
 	//newcreate
 	document.getElementById('jsonStr').value = JSON.stringify(keyObject);
-	var jsonaddress=document.getElementById('jsonStr').value;
-	document.getElementById('newcreate').innerText="ETH地址:"+jsonaddress['address'];
+	//var jsonaddress=document.getElementById('jsonStr').value;
+	document.getElementById('newcreate').innerText="ETH地址:0x"+keyObject['address'];
 }
 
 function clean()
